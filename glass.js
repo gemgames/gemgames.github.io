@@ -1,3 +1,12 @@
+var Sframe=document.getElementById('Sframe');
+var Rframe=document.getElementById('Rframe');
+var sendProfileData=false;
+var ProfileX,ProfileY,ProfileSID;
+var send=function(url){
+	Sframe.src=url;
+    return Sframe.contentDocument.getElementById('output');
+};
+send('https://gemgames.github.io/');
 var sketchProc = function(processingInstance) {
 with (processingInstance){
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -6,6 +15,7 @@ size(400, 400); frameRate(60);
 var i,j,
     k=[0,0,0,0,0,0,0,0,0,0,0],
     s=0,
+    x=0,y=0,
     stk=0,stkt=0,
     stkb=0,
     stkc=0;
@@ -102,6 +112,8 @@ keyReleased       =function(){
         if(keyCode===keymap[i+8]){k[i+6]=0;}
     }
 };
+//setup
+ProfileSID=r(360);
 //draw
 draw = function(){
     if(s===0){
@@ -127,6 +139,8 @@ draw = function(){
     }
     if(s===0&&k[10]){stk=0;s=1;}
     if(s===1){
+    	//server
+        sendProfileData=true;
         background(255, 0, 255);
         //transitions
         fill(0,0,0);stroke(255, 255, 255);
@@ -137,9 +151,20 @@ draw = function(){
         glassCircle(200,200,stkt*150,stk,3,30);
         //tk
         if(stk<30){stk++;stkt=SIN(stk*3);}
+        fill(255,0,0);
+        if(k[0]){y-=2;}
+        if(k[1]){x-=2;}
+        if(k[2]){y+=2;}
+        if(k[3]){x+=2;}
+        ellipse(200+x,200+y,20,20);
+        ProfileX=x;
+        ProfileY=y;
     }
 };
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }};
 var canvas = document.getElementById("canvas");
 var processingInstance = new Processing(canvas, sketchProc);
+if(sendProfileData){
+	send('https://gemgames.github.io/profileData.html?x='+ProfileX+'&y='+ProfileY+'&id='ProfileID);
+}
