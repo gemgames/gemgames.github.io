@@ -2,7 +2,7 @@
   $myfile = fopen("profiles.txt", "r") or die("Unable to open file!");
 ?>
 <script type='text/javascript'>
-var getUrlParameter = funciton(name) {//made by david walsh
+var getUrlParameter = function(name){//made by david walsh
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
     var results = regex.exec(location.search);
