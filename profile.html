@@ -8,5 +8,5 @@ var getUrlParameter = funciton(name) {//made by david walsh
     var results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 };
-document.write("<?php echo fread($myfile,filesize("webdictionary.txt")); ?>");
+document.write("<?php echo fread($myfile,filesize('webdictionary.txt')); ?>");
 </script>
