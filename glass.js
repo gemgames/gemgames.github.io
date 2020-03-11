@@ -165,6 +165,6 @@ draw = function(){
 }};
 var canvas = document.getElementById("canvas");
 var processingInstance = new Processing(canvas, sketchProc);
-//if(sendProfileData){
-	//send('https://gemgames.github.io/profileData.html?x='+ProfileX+'&y='+ProfileY+'&id='ProfileID);
-//}
+if(sendProfileData){
+	send('https://gemgames.github.io/profileData.html?x='+ProfileX+'&y='+ProfileY+'&id='+ProfileID);
+}
