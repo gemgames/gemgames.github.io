@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://cdn.jsdelivr.net/processing.js/1.4.8/processing.min.js"></script>
+		<title>CUBE</title>
+    <style>
+      body{
+      background: black;
+      }
+    </style>
+	</head>
+	<body>
+		<div align=center >
+			<canvas id="canvas"></canvas>
+        </div>
+		<script>
+      var sketchProc = function(processingInstance) {with (processingInstance) {size(400, 400); frameRate(30);
+var i, j, k, x = 0,
+	y = 0,
+	z = -20,
+	q = [],
+	dx, dy, dz, angX = 0,
+	angXsin, angXcos, angXt, angCX = 0,
+	angY = 0,
+	angYsin, angYcos, angYt, angCY = 0,
+	angZ = 0,
+	angZsin, angZcos, angZt, StartX, EndX, ChangeX, StartY, EndY, ChangeY, StartZ, EndZ, ChangeZ, LineX, LineY, Size = 4,
+	fillcol = [],
+	Cf = [],
+	stk=0,
+	tk = 0,
+	s=0,
+	corruptor = 0 / 100,
+	colinverse = 0,
+	colBAndW = 0,
+	colRainbow = 0,
+	c = 0,
+	ViewFac = 200,
+	pixelate = 0,
+	pSize = 4,
+	rSize = 0,
+	fs = 0,
+	ss = 0,
+	Repeat = 24,
+	rfac = 10 / 10,
+	repeats = 0;
+angleMode = degrees;
+var col = function () {};
+var colbg = function () {};
+var AngleSetup = function () { angXsin = sin(angX);
+	angYsin = sin(angY);
+	angZsin = sin(angZ);
+	angXcos = cos(angX);
+	angYcos = cos(angY);
+	angZcos = cos(angZ); };
+var hexagon=function(x,y,s,angle){
+    var X=function(p){return x+sin(angle+p)*s;};
+    var Y=function(p){return x+cos(angle+p)*s;};
+    col(120,120,120);
+    stroke(0, 0, 0);strokeWeight(6);
+    beginShape();for(i=0;i<6;i++){vertex(X(i*1.047),Y(i*1.047));}endShape(CLOSE);
+    col(102, 9, 37);
+    beginShape();
+    vertex(X(0*1.047),Y(0*1.047));
+    vertex(X(1*1.047),Y(1*1.047));
+    vertex(X(2*1.047),Y(2*1.047));
+    vertex(200,200);
+    endShape(CLOSE);
+    beginShape();
+    col(209, 50, 106);
+    vertex(X(0*1.047),Y(0*1.047));
+    vertex(X(5*1.047),Y(5*1.047));
+    vertex(X(4*1.047),Y(4*1.047));
+    vertex(200,200);
+    endShape(CLOSE);
+    beginShape();
+    col(141, 18, 55);
+    vertex(X(2*1.047),Y(2*1.047));
+    vertex(X(3*1.047),Y(3*1.047));
+    vertex(X(4*1.047),Y(4*1.047));
+    vertex(200,200);
+    endShape(CLOSE);
+};
+var SetupXYZ = function (Sx, Sy, Sz, SE) { dx = Sx - x;
+	dy = Sy - y;
+	dz = Sz - z; if (SE === 0) { StartX = (angYcos * ((angZsin * dy) + (angZcos * dx))) - (angYsin * dz);
+		StartY = ((angXsin * ((angYcos * dz) + (angYsin * ((angZsin * dy) + (angZcos * dx))))) + (angXcos * ((angZcos * dy) - (angZsin * dx))));
+		StartZ = ((angXcos * ((angYcos * dz) + (angYsin * ((angZsin * dy) + (angZcos * dx))))) - (angXsin * ((angZcos * dy) - (angZsin * dx)))); } if (SE === 1) { EndX = ((angYcos * ((angZsin * dy) + (angZcos * dx))) - (angYsin * dz));
+		EndY = ((angXsin * ((angYcos * dz) + (angYsin * ((angZsin * dy) + (angZcos * dx))))) + (angXcos * ((angZcos * dy) - (angZsin * dx))));
+		EndZ = ((angXcos * ((angYcos * dz) + (angYsin * ((angZsin * dy) + (angZcos * dx))))) - (angXsin * ((angZcos * dy) - (angZsin * dx)))); } };
+var camLookAt = function (dist) { angY = -angCX;
+	angX = -angCY;
+	x = (sin(angCX) * cos(angCY)) * dist;
+	y = -sin(angCY) * dist;
+	z = (-cos(angCX) * cos(angCY)) * dist;
+	AngleSetup(); };
+var Cline = function (Lx1, Ly1, Lz1, Lx2, Ly2, Lz2) { SetupXYZ(Lx1, Ly1, Lz1, 0);
+	SetupXYZ(Lx2, Ly2, Lz2, 1); if (repeats === 1) { Repeat = floor(sqrt((((StartX * ViewFac) / StartZ + 200) ^ 2) + (((StartX * ViewFac) / StartZ + 200) ^ 2))) * rfac;
+		Repeat -= 1; } ChangeX = ((EndX - StartX) / Repeat);
+	ChangeY = ((EndY - StartY) / Repeat);
+	ChangeZ = ((EndZ - StartZ) / Repeat); if (0 < StartZ) { noStroke(); if (pixelate === 0) { ellipse((StartX * ViewFac) / StartZ + 200 + (c * 2), (StartY * ViewFac) / StartZ + 200, (Size * ViewFac) / StartZ, (Size * ViewFac) / StartZ); } else { rect(floor(((StartX * ViewFac) / StartZ + 200 + (c * 2)) / pSize) * pSize - (rSize * 4), floor(((StartY * ViewFac) / StartZ + 200) / pSize) * pSize - (rSize * 4), pSize + (rSize * 8), pSize + (rSize * 8)); } } for (i = 0; i < Repeat; i++) { StartX += ChangeX;
+		StartY += ChangeY;
+		StartZ += ChangeZ; if (-2 < StartZ) { noStroke(); if (pixelate === 0) { ellipse((StartX * ViewFac) / StartZ + 200 + (c * 2), (StartY * ViewFac) / StartZ + 200, (Size * ViewFac) / StartZ, (Size * ViewFac) / StartZ); } else { rect(floor(((StartX * ViewFac) / StartZ + 200 + (c * 2)) / pSize) * pSize - (rSize * 4), floor(((StartY * ViewFac) / StartZ + 200) / pSize) * pSize - (rSize * 4), pSize + (rSize * 8), pSize + (rSize * 8)); } } } };
+var Cpoint = function (x, y, z) { SetupXYZ(x, y, z, 0); if (repeats === 1) { Repeat = floor(sqrt((((StartX * ViewFac) / StartZ + 200) ^ 2) + (((StartX * ViewFac) / StartZ + 200) ^ 2))) * rfac;
+		Repeat -= 1; } if (0 < StartZ) { noStroke(); if (pixelate === 0) { ellipse((StartX * ViewFac) / StartZ + 200 + (c * 2), (StartY * ViewFac) / StartZ + 200, (Size * ViewFac) / StartZ, (Size * ViewFac) / StartZ); } else { rect(floor(((StartX * ViewFac) / StartZ + 200 + (c * 2)) / pSize) * pSize - (rSize * 4), floor(((StartY * ViewFac) / StartZ + 200) / pSize) * pSize - (rSize * 4), pSize + (rSize * 8), pSize + (rSize * 8)); } } };
+		var Cquad = function(Lx1,Ly1,Lz1,Lx2,Ly2,Lz2,Lx3,Ly3,Lz3,Lx4,Ly4,Lz4){
+    SetupXYZ(Lx1,Ly1,Lz1,0);
+    if(0<StartZ){q[0]=(StartX*ViewFac)/StartZ+200;}
+    if(0<StartZ){q[1]=(StartY*ViewFac)/StartZ+200;}
+    SetupXYZ(Lx2,Ly2,Lz2,0);
+    if(0<StartZ){q[2]=(StartX*ViewFac)/StartZ+200;}
+    if(0<StartZ){q[3]=(StartY*ViewFac)/StartZ+200;}
+    SetupXYZ(Lx3,Ly3,Lz3,0);
+    if(0<StartZ){q[4]=(StartX*ViewFac)/StartZ+200;}
+    if(0<StartZ){q[5]=(StartY*ViewFac)/StartZ+200;}
+    SetupXYZ(Lx4,Ly4,Lz4,0);
+    if(0<StartZ){q[6]=(StartX*ViewFac)/StartZ+200;}
+    if(0<StartZ){q[7]=(StartY*ViewFac)/StartZ+200;}
+        noStroke();
+        quad(q[0],q[1],q[2],q[3],q[4],q[5],q[6],q[7]);
+};
+var Cflat = function(fx1,fy1,fz1,fa,fb,xyz){
+    if(xyz===1){
+        Cquad(fx1,fy1,fz1,fx1+fa,fy1,fz1,fx1+fa,fy1+fb,fz1,fx1,fy1+fb,fz1);
+    }
+    if(xyz===2){
+        Cquad(fx1,fy1,fz1,fx1,fy1+fa,fz1,fx1,fy1+fa,fz1+fb,fx1,fy1,fz1+fb);
+    }
+    if(xyz===3){
+        Cquad(fx1,fy1,fz1,fx1,fy1,fz1+fa,fx1+fb,fy1,fz1+fa,fx1+fb,fy1,fz1);
+    }
+};
+var Cpanecube = function (CX, CY, CZ, CL, CH, CW) { Cline(CX, CY, CZ, CX + CL, CY, CZ);
+	Cline(CX, CY, CZ, CX, CY + CH, CZ);
+	Cline(CX, CY, CZ, CX, CY, CZ + CW);
+	Cline(CX + CL, CY, CZ, CX + CL, CY + CH, CZ);
+	Cline(CX + CL, CY, CZ, CX + CL, CY, CZ + CW);
+	Cline(CX, CY + CH, CZ, CX + CL, CY + CH, CZ);
+	Cline(CX, CY + CH, CZ, CX, CY + CH, CZ + CW);
+	Cline(CX, CY, CZ + CW, CX + CL, CY, CZ + CW);
+	Cline(CX, CY, CZ + CW, CX, CY + CH, CZ + CW);
+	Cline(CX + CL, CY + CH, CZ + CW, CX, CY + CH, CZ + CW);
+	Cline(CX + CL, CY + CH, CZ + CW, CX + CL, CY, CZ + CW);
+	Cline(CX + CL, CY + CH, CZ + CW, CX + CL, CY + CH, CZ); };
+col = function (r, g, b) { fill(r, g, b); if (colinverse === 1) { fill(255 - r, 255 - g, 255 - b); } if (colBAndW === 1) { fill((r + g + b) / 3, (r + g + b) / 3, (r + g + b) / 3); } if (colRainbow === 1) { fill(r + sin(tk * 2) * 60, g + sin(tk + 60 * 2) * 60, b + sin(tk + 120 * 2) * 60); } };
+colbg = function (r, g, b) { background(r, g, b); if (colinverse === 1) { background(255 - r, 255 - g, 255 - b); } if (colBAndW === 1) { background((r + g + b) / 3, (r + g + b) / 3, (r + g + b) / 3); } };
+draw = function () { AngleSetup();
+	colbg(0, 0, 0);
+	col(225, 0, 0);
+	Size = 1.5;
+	rSize = 1;
+	camLookAt(20);
+	if(s===0){
+	    col(120,120,120);
+	    hexagon(200,200,200-(25*-5)+stk,200-(25*-5)+stk);
+	    hexagon(200,200,200-(25*-4)+stk,200-(25*-4)+stk);
+	    hexagon(200,200,200-(25*-2)+stk,200-(25*-2)+stk);
+	    hexagon(200,200,200-(25*0)+stk,200-(25*0)+stk);
+	    hexagon(200,200,200-(25*2)+stk,200-(25*2)+stk);
+	    hexagon(200,200,200-(25*4)+stk,200-(25*4)+stk);
+	    hexagon(200,200,200-(25*6)+stk,200-(25*6)+stk);
+	    hexagon(200,200,200-(25*8)+stk,200-(25*8)+stk);
+	    col(0,0,0);
+	    rect(180,180,40,40,30);
+	    stk+=0.08;
+	}
+	if(s===1){
+	    col(120,120,120);
+	    Cpanecube(-5, -5, -5, 10, 10, 10);
+	    Cpanecube(15, -5, -5, 10, 10, 10);
+	    Cpanecube(-5, 15, -5, 10, 10, 10);
+	    Cpanecube(-5, -5, 15, 10, 10, 10);
+	    Cpanecube(-25, -5, -5, 10, 10, 10);
+	    Cpanecube(-5, -25, -5, 10, 10, 10);
+	    Cpanecube(-5, -5, -25, 10, 10, 10);
+	    col(102, 9, 37);
+	    Cflat(-5,-5,-5,10,10,3);
+	    Cflat(5,5,5,-10,-10,3);
+	    col(209, 50, 106);
+	    Cflat(-5,-5,-5,10,10,1);
+	    Cflat(5,5,5,-10,-10,1);
+	    col(141, 18, 55);
+	    Cflat(-5,-5,-5,10,10,2);
+	    Cflat(5,5,5,-10,-10,2);
+	    
+	}
+	angCX += 0.05;
+	angCY += 0.05;
+	tk += 0.2;
+	if(tk>30&&s===0){s=1;tk=0;}
+	if(tk>30&&s===1){s=0;stk=0;tk=0;}
+};
+}};var canvas = document.getElementById("canvas"); var processingInstance = new Processing(canvas, sketchProc);
+    </script>
+	</body>
+</html>
