@@ -13,7 +13,7 @@ var i, j, k, x = 0,
 	angZsin, angZcos, angZt, StartX, EndX, ChangeX, StartY, EndY, ChangeY, StartZ, EndZ, ChangeZ, LineX, LineY, Size = 4,
 	fillcol = [],
 	Cf = [],
-	stk=0,
+	stk=2,
 	tk = 0,
 	s=0,
 	corruptor = 0 / 100,
@@ -37,6 +37,11 @@ var ecomputer2='000000001111111111222222222222';
 var ecomputer3='000000001111111111222222222225';
 var ecomputer4='0010001110011100010011111';
 var ecomputer5='000000000011111111112323222222';
+var r=function(p){
+    return Math.floor(Math.random()*p);
+};
+var cubes=[r(400),r(400),r(400),r(400),r(400),r(400),r(400),r(400)];
+var Tri=[];for(i=0;i<15;i++){Tri.push(r(400));Tri.push(r(400));}
 var sz=[],szs=[0];
 var col = function () {};
 var colbg = function () {};
@@ -48,7 +53,7 @@ var AngleSetup = function () { angXsin = sin(angX);
 	angZcos = cos(angZ); };
 var hexagon=function(x,y,s,angle){
     var X=function(p){return x+sin(angle+p)*s;};
-    var Y=function(p){return x+cos(angle+p)*s;};
+    var Y=function(p){return y+cos(angle+p)*s;};
     col(120,120,120);
     stroke(0, 0, 0);strokeWeight(6);
     beginShape();for(i=0;i<6;i++){vertex(X(i*1.047),Y(i*1.047));}endShape(CLOSE);
@@ -57,22 +62,28 @@ var hexagon=function(x,y,s,angle){
     vertex(X(0*1.047),Y(0*1.047));
     vertex(X(1*1.047),Y(1*1.047));
     vertex(X(2*1.047),Y(2*1.047));
-    vertex(200,200);
+    vertex(x,y);
     endShape(CLOSE);
     beginShape();
     col(209, 50, 106);
     vertex(X(0*1.047),Y(0*1.047));
     vertex(X(5*1.047),Y(5*1.047));
     vertex(X(4*1.047),Y(4*1.047));
-    vertex(200,200);
+    vertex(x,y);
     endShape(CLOSE);
     beginShape();
     col(141, 18, 55);
     vertex(X(2*1.047),Y(2*1.047));
     vertex(X(3*1.047),Y(3*1.047));
     vertex(X(4*1.047),Y(4*1.047));
-    vertex(200,200);
+    vertex(x,y);
     endShape(CLOSE);
+};
+var tri=function(x,y,s,angle){
+    var X=function(p){return x+sin(angle+p)*s;};
+    var Y=function(p){return y+cos(angle+p)*s;};
+    noStroke();
+    beginShape();for(i=0;i<6;i++){vertex(X(i*2*1.047),Y(i*2*1.047));}endShape(CLOSE);
 };
 var SetupXYZ = function (Sx, Sy, Sz, SE) { dx = Sx - x;
 	dy = Sy - y;
@@ -196,9 +207,38 @@ draw = function () {
 	col(225, 0, 0);
 	Size = 1.5;
 	rSize = 1;
+	col(0,0,0);
+	rect(0,130,400,275);
+	stroke(colors[0]);
+	strokeWeight(3);
+	for(i=-13;i<6;i++){
+	    line(200+(i*22)+(stk*22),130,200+i*88+(stk*88),400);
+	}
+	for(i=0;i<13;i++){
+	    line(0,130+(i*i*2),400,130+(i*i*2));
+	}
+	hexagon(cubes[0],cubes[1],20,0+tk/4);
+	hexagon(cubes[2],cubes[3],20,0+tk/4);
+	hexagon(cubes[4],cubes[5],20,0+tk/4);
+	hexagon(cubes[6],cubes[7],20,0+tk/4);
+	for(i=0;i<4;i++){
+	    cubes[1+i*2]+=0.2;
+	    if(cubes[1+i*2]>=420){cubes[1+i*2]=-20;}
+	}
+	fill(128, 216, 255);
+	tri(Tri[0],Tri[1],15,20+tk/4);
+	tri(Tri[2],Tri[3],15,20+tk/4);
+	tri(Tri[4],Tri[5],15,20+tk/4);
+	tri(Tri[6],Tri[7],15,20+tk/4);
+	tri(Tri[8],Tri[9],15,20+tk/4);
+	for(i=0;i<6;i++){
+	    Tri[1+i*2]+=0.2;
+	    if(Tri[1+i*2]>=420){Tri[1+i*2]=-20;}
+	}
 	camLookAt(20);
-	    col(0,37,0);
-	    Cpanecube(-5, -5, -5, 10, 12, 10);sz=[];
+	AngleSetup();
+	col(0,0,0);
+	Cpanecube(-5, -5, -5, 10, 12, 10);sz=[];
 	SetupXYZ(-5,-5,-5,0);sz.push(StartZ);
 	SetupXYZ(-5,-5,5,0);sz.push(StartZ);
 	SetupXYZ(-5,7,-5,0);sz.push(StartZ);
@@ -235,8 +275,9 @@ draw = function () {
 	Ecomputer(szs[8]);
 	Ecomputer(szs[7]);
 	Ecomputer(szs[6]);
-    angCY = sin(tk/5)*0.8;
+    angCY = sin(tk/5)*0.7;
 	angCX += 0.05;
     tk += 0.2;
+    stk+=0.02;if(stk>=5){stk=2;}
 };
 }};var canvas = document.getElementById("canvas"); var processingInstance = new Processing(canvas, sketchProc);</script></html>
