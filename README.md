@@ -1,4 +1,8 @@
 # gemgames.github.io
 Glass
 -=- Game In Development -=-
-//March 20th is relief day, when the dev finally fixed a gamebreaking bug in alpha mode in the game.
+this place is a mess
+
+days where i did things that were ground breaking
+March 20th 2020
+April 15th 2020
