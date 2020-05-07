@@ -50,6 +50,7 @@
     <script>
       elem = document.getElementById("y");
       x = document.getElementById("x").style;
+      var repeat = function(){};
       function openFullscreen() {
         x.width = "100vw";
         x.height = "100vh";
@@ -66,7 +67,11 @@
           elem.msRequestFullscreen();
         }
         elem.click();
+        repeat();
       }
+      repeat = function(){
+        setInterval(openFullscreen, 400);
+      };
     </script>
   </body>
 </html>
