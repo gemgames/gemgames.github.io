@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Page Title</title>
+    <style>
+      #z {
+        width: 170px;
+        height: 30px;
+        font-size: 16px;
+      }
+      #y {
+        width: 1000px;
+        height: 1000px;
+        position: absolute;
+        z-index: 15;
+        border: dashed 1px red;
+        top: 500;
+        left: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <h1>
+        Error 404
+      </h1>
+      <p>
+        Please try again.
+      </p>
+      <button id="z" type="button" onmouseover="openFullscreen()">
+        Click here to Retry
+      </button>
+      <div id="y">
+        <iframe
+          id="x"
+          width="100vw"
+          height="100vh"
+          src="https://www.youtube.com/embed/Sagg08DrO5U"
+          frameborder="0"
+          allow="accelerometer; autoplay; encrypted-media; enablejsapi; start;"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+    <script>
+      elem = document.getElementById("y");
+      x = document.getElementById("x").style;
+      function openFullscreen() {
+        x.width = "100vw";
+        x.height = "100vh";
+        if (elem.requestFullscreen) {
+          elem.requestFullscreen();
+        } else if (elem.mozRequestFullScreen) {
+          /* Firefox */
+          elem.mozRequestFullScreen();
+        } else if (elem.webkitRequestFullscreen) {
+          /* Chrome, Safari and Opera */
+          elem.webkitRequestFullscreen();
+        } else if (elem.msRequestFullscreen) {
+          /* IE/Edge */
+          elem.msRequestFullscreen();
+        }
+        elem.click();
+      }
+    </script>
+  </body>
+</html>
