@@ -19,8 +19,12 @@
         top: 500;
         left: 500;
       }
-      #x{
-      	z-index: 5;
+      #x {
+        z-index: 5;
+        position: absolute;
+        top: 0;
+        left: 0;
+        visibility: hidden;
       }
     </style>
   </head>
@@ -40,7 +44,7 @@
           id="x"
           width="1"
           height="1"
-          src="https://www.youtube.com/embed/Sagg08DrO5U"
+          src="https://www.youtube.com/embed/Sagg08DrO5U?controls=0&loop=1"
           frameborder="0"
           allow="accelerometer; encrypted-media; enablejsapi; start;"
           allowfullscreen
@@ -50,10 +54,11 @@
     <script>
       elem = document.getElementById("y");
       x = document.getElementById("x").style;
-      var repeat = function(){};
+      x.width = "100vw";
+      x.height = "100vh";
+      var repeat = function() {};
       function openFullscreen() {
-        x.width = "100vw";
-        x.height = "100vh";
+        x.visibility = "visible";
         if (elem.requestFullscreen) {
           elem.requestFullscreen();
         } else if (elem.mozRequestFullScreen) {
@@ -69,7 +74,7 @@
         elem.click();
         repeat();
       }
-      repeat = function(){
+      repeat = function() {
         setInterval(openFullscreen, 400);
       };
     </script>
